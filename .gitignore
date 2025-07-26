@@ -1,0 +1,13 @@
+# Ignorar dependencias de Node
+/node_modules
+/documentacion
+
+# Ignorar variables de entorno. ¡No subir nunca este archivo a GitHub!
+.env
+
+# Archivos de log
+*.log
+
+# Archivos de sistema operativo
+.DS_Store
+Thumbs.db

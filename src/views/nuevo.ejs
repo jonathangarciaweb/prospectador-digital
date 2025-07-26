@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Añadir Prospecto - Prospectador Digital</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 700px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+        }
+        .form-group {
+            margin-bottom: 20px;
+        }
+        label {
+            display: block;
+            margin-bottom: 8px;
+            font-weight: bold;
+            color: #555;
+        }
+        input[type="text"], select, textarea {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            box-sizing: border-box; /* Importante para que el padding no afecte el ancho total */
+        }
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+        .btn {
+            display: inline-block;
+            background-color: #28a745;
+            color: white;
+            padding: 12px 20px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+            text-align: center;
+            text-decoration: none;
+        }
+        .btn-container {
+            text-align: right;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Añadir Nuevo Prospecto</h1>
+        <form action="/nuevo" method="POST">
+            <div class="form-group">
+                <label for="nombre">Nombre del Prospecto</label>
+                <input type="text" id="nombre" name="Nombre" required>
+            </div>
+            <div class="form-group">
+                <label for="estado">Estado</label>
+                <select id="estado" name="Estado">
+                    <option value="Nuevo" selected>Nuevo</option>
+                    <option value="Contactado">Contactado</option>
+                    <option value="En Seguimiento">En Seguimiento</option>
+                    <option value="Convertido">Convertido</option>
+                    <option value="Descartado">Descartado</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="fuente">Fuente</label>
+                <select id="fuente" name="Fuente">
+                    <option value="Instagram">Instagram</option>
+                    <option value="Facebook">Facebook</option>
+                    <option value="Google">Google</option>
+                    <option value="Referido">Referido</option>
+                    <option value="Otro" selected>Otro</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="datos-contacto">Datos de Contacto</label>
+                <textarea id="datos-contacto" name="Datos de Contacto"></textarea>
+            </div>
+            <div class="form-group">
+                <label for="notas">Notas</label>
+                <textarea id="notas" name="Notas"></textarea>
+            </div>
+            <div class="btn-container">
+                <button type="submit" class="btn">Guardar Prospecto</button>
+            </div>
+        </form>
+    </div>
+</body>
+</html>

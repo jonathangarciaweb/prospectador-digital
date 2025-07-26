@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lista de Prospectos - Prospectador Digital</title>
+    <style>
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            background-color: #f4f7f6;
+            color: #333;
+            margin: 0;
+            padding: 20px;
+        }
+        .container {
+            max-width: 1000px;
+            margin: auto;
+            background-color: #fff;
+            padding: 20px 30px;
+            border-radius: 8px;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #0056b3;
+            text-align: center;
+        }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+        th, td {
+            padding: 12px 15px;
+            border: 1px solid #ddd;
+            text-align: left;
+        }
+        th {
+            background-color: #0056b3;
+            color: white;
+        }
+        tr:nth-child(even) {
+            background-color: #f2f2f2;
+        }
+        tr:hover {
+            background-color: #e9ecef;
+        }
+        .empty-message {
+            text-align: center;
+            padding: 20px;
+            font-style: italic;
+            color: #777;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Lista de Prospectos</h1>
+
+<!-- =========== BOTÓN AÑADIDO =========== -->
+        <div style="text-align: right; margin-bottom: 20px;">
+            <a href="/nuevo" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">
+                + Añadir Nuevo Prospecto
+            </a>
+        </div>
+        <!-- ===================================== -->
+
+        <% if (prospectos && prospectos.length > 0) { %>
+            <table>
+                <thead>
+                    <tr>
+                        <th>Nombre</th>
+                        <th>Estado</th>
+                        <th>Fuente</th>
+                        <th>Datos de Contacto</th>
+                        <th style="text-align: center;">Acciones</th> <!-- AÑADIDO -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <% prospectos.forEach(prospecto => { %>
+                        <tr>
+                            <td><%= prospecto.Nombre || 'N/A' %></td>
+                            <td><%= prospecto.Estado || 'N/A' %></td>
+                            <td><%= prospecto.Fuente || 'N/A' %></td>
+                            <td><%= prospecto['Datos de Contacto'] || 'N/A' %></td>
+                            <!-- CELDA AÑADIDA CON EL BOTÓN -->
+                            <td style="text-align: center;">
+                                <a href="/editar/<%= prospecto.id %>" style="background-color: #ffc107; color: #333; padding: 5px 10px; text-decoration: none; border-radius: 4px; font-size: 14px;">
+                                        Editar
+                                </a>
+
+                                 <!-- FORMULARIO PARA EL BOTÓN DE BORRAR (AÑADIDO) -->
+                                <form action="/eliminar/<%= prospecto.id %>" method="POST" style="margin: 0;">
+                                    <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este prospecto?');" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer;">
+                                            Borrar
+                                    </button>
+                                </form>
+                        </td>
+                        </tr>
+                    <% }); %>
+                </tbody>
+            </table>
+        <% } else { %>
+            <p class="empty-message">No hay prospectos registrados por el momento.</p>
+        <% } %>
+    </div>
+</body>
+</html>
