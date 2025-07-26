@@ -20,17 +20,16 @@
             border-radius: 8px;
             box-shadow: 0 2px 10px rgba(0,0,0,0.1);
         }
-        /* --- NUEVA CABECERA CON FLEXBOX --- */
         .header {
             display: flex;
-            justify-content: space-between; /* Alinea los elementos a los extremos */
-            align-items: center; /* Centra verticalmente */
+            justify-content: space-between;
+            align-items: center;
             margin-bottom: 20px;
-            flex-wrap: wrap; /* Permite que los elementos se apilen si no hay espacio */
+            flex-wrap: wrap;
         }
         .header h1 {
             color: #0056b3;
-            margin: 0; /* Quitamos el margen por defecto del h1 */
+            margin: 0;
         }
         .header .btn-add {
             background-color: #007bff; 
@@ -39,19 +38,20 @@
             text-decoration: none; 
             border-radius: 5px; 
             font-weight: bold;
-            white-space: nowrap; /* Evita que el texto del botón se parta */
+            white-space: nowrap;
         }
         table {
             width: 100%;
             border-collapse: collapse;
             margin-top: 20px;
+            table-layout: fixed;
         }
         th, td {
             padding: 12px 15px;
             border: 1px solid #ddd;
             text-align: left;
-            overflow-wrap: break-word; /* <-- CORRECCIÓN DEL DESBORDAMIENTO */
-            word-wrap: break-word; /* Compatibilidad con navegadores antiguos */
+            overflow-wrap: break-word;
+            word-wrap: break-word;
         }
         th {
             background-color: #0056b3;
@@ -97,8 +97,8 @@
         /* --- ESTILOS PARA ADAPTABILIDAD (RESPONSIVENESS) --- */
         @media (max-width: 768px) {
             .header {
-                flex-direction: column; /* Apila el título y el botón verticalmente */
-                gap: 15px; /* Añade espacio entre el título y el botón */
+                flex-direction: column;
+                gap: 15px;
                 text-align: center;
             }
             thead {
@@ -112,28 +112,39 @@
                 margin-bottom: 15px;
                 border: 1px solid #ddd;
                 border-radius: 5px;
-                padding: 10px;
+                padding: 0;
                 box-shadow: 0 1px 3px rgba(0,0,0,0.05);
             }
             td {
                 border: none;
-                padding-left: 50%;
-                position: relative;
-                padding-top: 8px;
-                padding-bottom: 8px;
+                border-bottom: 1px solid #eee;
+                padding: 12px 15px;
+                display: flex;
+                align-items: flex-start;
+            }
+            tr td:last-child {
+                border-bottom: none;
             }
             td::before {
                 content: attr(data-label);
-                position: absolute;
-                left: 10px;
-                width: 45%;
-                padding-right: 10px;
                 font-weight: bold;
                 text-align: left;
+                margin-right: 15px;
+                /* La etiqueta tiene un ancho fijo y no se encoge */
+                flex-basis: 120px; 
+                flex-shrink: 0;
+            }
+            .data-value {
+                text-align: right;
+                /* El dato crece para ocupar el espacio restante */
+                flex-grow: 1;
+                /* Propiedades clave para el desbordamiento */
+                word-break: break-word;
+                min-width: 0;
             }
             .actions-cell {
                 justify-content: flex-start;
-                padding-left: 0;
+                padding-top: 15px;
             }
             .actions-cell::before {
                 display: none;
@@ -143,7 +154,6 @@
 </head>
 <body>
     <div class="container">
-        <!-- CABECERA REESTRUCTURADA -->
         <div class="header">
             <h1>Lista de Prospectos</h1>
             <a href="/nuevo" class="btn-add">
@@ -165,10 +175,10 @@
                 <tbody>
                     <% prospectos.forEach(prospecto => { %>
                         <tr>
-                            <td data-label="Nombre"><%= prospecto.Nombre || 'N/A' %></td>
-                            <td data-label="Estado"><%= prospecto.Estado || 'N/A' %></td>
-                            <td data-label="Fuente"><%= prospecto.Fuente || 'N/A' %></td>
-                            <td data-label="Datos de Contacto"><%= prospecto['Datos de Contacto'] || 'N/A' %></td>
+                            <td data-label="Nombre"><span class="data-value"><%= prospecto.Nombre || 'N/A' %></span></td>
+                            <td data-label="Estado"><span class="data-value"><%= prospecto.Estado || 'N/A' %></span></td>
+                            <td data-label="Fuente"><span class="data-value"><%= prospecto.Fuente || 'N/A' %></span></td>
+                            <td data-label="Datos de Contacto"><span class="data-value"><%= prospecto['Datos de Contacto'] || 'N/A' %></span></td>
                             <td class="actions-cell">
                                 <a href="/editar/<%= prospecto.id %>" class="btn-edit">
                                     Editar
