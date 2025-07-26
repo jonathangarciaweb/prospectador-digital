@@ -10,10 +10,10 @@
             background-color: #f4f7f6;
             color: #333;
             margin: 0;
-            padding: 20px;
+            padding: 10px;
         }
         .container {
-            max-width: 1000px;
+            max-width: 1100px;
             margin: auto;
             background-color: #fff;
             padding: 20px 30px;
@@ -50,19 +50,86 @@
             font-style: italic;
             color: #777;
         }
+        .actions-cell {
+            text-align: center; 
+            display: flex; 
+            justify-content: center; 
+            align-items: center; 
+            gap: 8px;
+        }
+        .btn-edit {
+            background-color: #ffc107; 
+            color: #333; 
+            padding: 5px 10px; 
+            text-decoration: none; 
+            border-radius: 4px; 
+            font-size: 14px;
+        }
+        .btn-delete {
+            background-color: #dc3545; 
+            color: white; 
+            padding: 5px 10px; 
+            border: none; 
+            border-radius: 4px; 
+            font-size: 14px; 
+            cursor: pointer;
+        }
+
+        /* --- ESTILOS PARA ADAPTABILIDAD (RESPONSIVENESS) --- */
+        @media (max-width: 768px) {
+            /* Ocultamos la cabecera de la tabla en móviles */
+            thead {
+                display: none;
+            }
+            /* Convertimos la tabla, fila y cuerpo en bloques */
+            table, tbody, tr, td {
+                display: block;
+                width: 100%;
+            }
+            /* Hacemos que cada fila parezca una tarjeta */
+            tr {
+                margin-bottom: 15px;
+                border: 1px solid #ddd;
+                border-radius: 5px;
+                padding: 10px;
+                box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            }
+            td {
+                border: none;
+                padding-left: 50%; /* Espacio para el "título" */
+                position: relative;
+                padding-top: 8px;
+                padding-bottom: 8px;
+            }
+            /* Creamos los "títulos" de cada celda usando pseudo-elementos */
+            td::before {
+                content: attr(data-label); /* El contenido será el valor del atributo data-label */
+                position: absolute;
+                left: 10px;
+                width: 45%;
+                padding-right: 10px;
+                font-weight: bold;
+                text-align: left;
+            }
+            .actions-cell {
+                justify-content: flex-start; /* Alineamos los botones a la izquierda */
+                padding-left: 0;
+            }
+            .actions-cell::before {
+                display: none; /* No queremos un título para la celda de acciones */
+            }
+        }
     </style>
 </head>
 <body>
     <div class="container">
         <h1>Lista de Prospectos</h1>
 
-<!-- =========== BOTÓN AÑADIDO =========== -->
         <div style="text-align: right; margin-bottom: 20px;">
             <a href="/nuevo" style="background-color: #007bff; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px; font-weight: bold;">
                 + Añadir Nuevo Prospecto
             </a>
         </div>
-        <!-- ===================================== -->
 
         <% if (prospectos && prospectos.length > 0) { %>
             <table>
@@ -72,29 +139,27 @@
                         <th>Estado</th>
                         <th>Fuente</th>
                         <th>Datos de Contacto</th>
-                        <th style="text-align: center;">Acciones</th> <!-- AÑADIDO -->
+                        <th style="text-align: center;">Acciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <% prospectos.forEach(prospecto => { %>
                         <tr>
-                            <td><%= prospecto.Nombre || 'N/A' %></td>
-                            <td><%= prospecto.Estado || 'N/A' %></td>
-                            <td><%= prospecto.Fuente || 'N/A' %></td>
-                            <td><%= prospecto['Datos de Contacto'] || 'N/A' %></td>
-                            <!-- CELDA AÑADIDA CON EL BOTÓN -->
-                            <td style="text-align: center;">
-                                <a href="/editar/<%= prospecto.id %>" style="background-color: #ffc107; color: #333; padding: 5px 10px; text-decoration: none; border-radius: 4px; font-size: 14px;">
-                                        Editar
+                            <!-- AÑADIMOS ATRIBUTOS data-label -->
+                            <td data-label="Nombre"><%= prospecto.Nombre || 'N/A' %></td>
+                            <td data-label="Estado"><%= prospecto.Estado || 'N/A' %></td>
+                            <td data-label="Fuente"><%= prospecto.Fuente || 'N/A' %></td>
+                            <td data-label="Datos de Contacto"><%= prospecto['Datos de Contacto'] || 'N/A' %></td>
+                            <td class="actions-cell">
+                                <a href="/editar/<%= prospecto.id %>" class="btn-edit">
+                                    Editar
                                 </a>
-
-                                 <!-- FORMULARIO PARA EL BOTÓN DE BORRAR (AÑADIDO) -->
                                 <form action="/eliminar/<%= prospecto.id %>" method="POST" style="margin: 0;">
-                                    <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este prospecto?');" style="background-color: #dc3545; color: white; padding: 5px 10px; border: none; border-radius: 4px; font-size: 14px; cursor: pointer;">
-                                            Borrar
+                                    <button type="submit" onclick="return confirm('¿Estás seguro de que quieres eliminar este prospecto?');" class="btn-delete">
+                                        Borrar
                                     </button>
                                 </form>
-                        </td>
+                            </td>
                         </tr>
                     <% }); %>
                 </tbody>
